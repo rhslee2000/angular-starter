@@ -8,9 +8,7 @@
 
   angular.module('SampleApp', ['ngRoute', 'ngAnimate'])
 
-  .config([
-    '$locationProvider',
-    '$routeProvider',
+  .config(
     function($locationProvider, $routeProvider) {
       $locationProvider.hashPrefix('!');
       // routes
@@ -23,16 +21,15 @@
            redirectTo: '/'
         });
     }
-  ]);
+  );
 
   //Load controller
   angular.module('SampleApp')
 
-  .controller('MainController', [
-    '$scope',
+  .controller('MainController',
     function($scope) {
       $scope.test = "Testing...";
     }
-  ]);
+  );
 
 }());

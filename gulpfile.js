@@ -2,8 +2,6 @@
 var gulp = require('gulp');
 
 // plugins
-var connect = require('gulp-connect');
-var jshint = require('gulp-jshint');
 var uglify = require('gulp-uglify');
 var minifyCSS = require('gulp-minify-css');
 var clean = require('gulp-clean');
@@ -11,14 +9,24 @@ var runSequence = require('run-sequence');
 var browserify = require('gulp-browserify');
 var concat = require('gulp-concat');
 
-// tasks
-gulp.task('lint', function() {
-  gulp.src(['./app/**/*.js', '!./app/libs/**'])
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'))
-    .pipe(jshint.reporter('fail'));
-});
+// browsersync for live reload
+var browserSync = require('browser-sync').create();
 
+var ngAnnotate = require('gulp-ng-annotate');
+
+// =======================================================================
+// File Paths
+// =======================================================================
+var filePath = {
+    js: {
+        src: ['./app/**/*.js', '!./app/libs/**']
+    },
+    html: {
+      src : ['./app/**/*.html']
+    }
+  };
+
+// tasks
 gulp.task('clean', function() {
     gulp.src('./dist/*')
       .pipe(clean({force: true}));
@@ -53,20 +61,22 @@ gulp.task('copy-html-files', function () {
 });
 
 gulp.task('connect', function () {
-  connect.server({
-    root: 'app/',
-    port: 8888
-  });
-});
-gulp.task('connectDist', function () {
-  connect.server({
-    root: 'dist/',
-    port: 9999
-  });
+
+    browserSync.init({
+        open:  true ,
+        server: {
+            baseDir: 'app/'
+        }
+    });
+
+    gulp.watch([
+      'app/**/*' , '!app/libs/**'
+    ] , ['serve:reload'] );
 });
 
 gulp.task('browserify', function() {
   gulp.src(['app/app.js'])
+  .pipe(ngAnnotate())
   .pipe(browserify({
     insertGlobals: true,
     debug: true
@@ -77,6 +87,7 @@ gulp.task('browserify', function() {
 
 gulp.task('browserifyDist', function() {
   gulp.src(['app/app.js'])
+  .pipe(ngAnnotate())
   .pipe(browserify({
     insertGlobals: true,
     debug: true
@@ -85,14 +96,21 @@ gulp.task('browserifyDist', function() {
   .pipe(gulp.dest('./dist'))
 });
 
+// =======================================================================
+// Watch for changes
+// =======================================================================
+gulp.task('serve:reload' , []  , function(){
+  browserSync.reload();
+});
+
 // default task
 gulp.task('default',
-  ['lint', 'browserify', 'connect']
+  ['browserify', 'connect']
 );
 
 gulp.task('build', function() {
   runSequence(
     ['clean'],
-    ['lint', 'minify-css', 'browserifyDist', 'minify-js', 'copy-html-files', 'copy-bower-components', 'connectDist']
+    ['minify-css', 'browserifyDist', 'minify-js', 'copy-html-files', 'copy-bower-components']
   );
 });

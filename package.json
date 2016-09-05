@@ -23,5 +23,9 @@
     "gulp-uglify": "^2.0.0",
     "jshint": "^2.9.3",
     "run-sequence": "^1.2.2"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.14.3",
+    "gulp-ng-annotate": "^2.0.0"
   }
 }
