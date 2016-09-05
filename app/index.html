@@ -14,15 +14,22 @@
   </head>
   <body>
     <div class="container">
+      <!-- NAVIGATION -->
+      <nav class="navbar navbar-inverse" role="navigation">
+        <div class="navbar-header">
+          <a class="navbar-brand" ui-sref="#">App Name Here</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li><a ui-sref="home">Home</a></li>
+        </ul>
+      </nav>
       <h1>Angular-Gulp-Browserify-Starter</h1>
       <!-- views -->
-      <div ng-view></div>
+      <div ui-view></div>
     </div>
     <!-- library scripts -->
     <script src="libs/jquery/dist/jquery.js"></script>
-
     <script src="libs/bootstrap/dist/js/bootstrap.js"></script>
-
     <!-- application scripts -->
     <script src="bundled.js"></script>
   </body>

@@ -3,23 +3,25 @@
 'use strict';
 
  require('angular');
- require('angular-route');
  require('angular-animate');
+ require('angular-ui-router');
 
-  angular.module('SampleApp', ['ngRoute', 'ngAnimate'])
+  angular.module('SampleApp', ['ui.router', 'ngAnimate'])
 
   .config(
-    function($locationProvider, $routeProvider) {
+    function($locationProvider, $stateProvider, $urlRouterProvider) {
       $locationProvider.hashPrefix('!');
-      // routes
-      $routeProvider
-        .when("/", {
-          templateUrl: "./home/home.html",
-          controller: "MainController"
-        })
-        .otherwise({
-           redirectTo: '/'
-        });
+
+      // states
+      var home = {
+        name : 'home',
+        url : '/home',
+        templateUrl : '/home/home.html',
+        controller : 'MainController'
+      };
+      $stateProvider.state(home);
+      
+      $urlRouterProvider.otherwise('/');
     }
   );
 
@@ -28,6 +30,7 @@
 
   .controller('MainController',
     function($scope) {
+      console.log('main controller');
       $scope.test = "Testing...";
     }
   );
