@@ -14,8 +14,8 @@
     "angular-route": "^1.5.8",
     "angular-ui-router": "^0.3.1",
     "bower": "^1.7.9",
+    "browserify": "^13.1.0",
     "gulp": "^3.9.1",
-    "gulp-browserify": "^0.5.1",
     "gulp-clean": "^0.3.2",
     "gulp-concat": "^2.6.0",
     "gulp-connect": "^5.0.0",
@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "browser-sync": "^2.14.3",
-    "gulp-ng-annotate": "^2.0.0"
+    "browserify-ngannotate": "^2.0.0",
+    "vinyl-source-stream": "^1.1.0"
   }
 }
